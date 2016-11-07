@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location" value="classpath:cve-source-info.properties"/>
+    </bean>
+
+    <bean id="mitreParser" class="ru.goncharov.cvem.parser.parsers.MitreParser"/>
+    <bean id="mitreSourceInfo" class="ru.goncharov.cvem.model.data.CveSourceInfo">
+        <constructor-arg index="0" value="${mitre.source.name}"/>
+        <constructor-arg index="1" value="${mitre.source.site}"/>
+        <constructor-arg index="2" value="${mitre.search.url}"/>
+    </bean>
+    <bean id="mitre" class="ru.goncharov.cvem.model.CveManagerEntity">
+        <constructor-arg index="0" ref="mitreParser"/>
+        <constructor-arg index="1" ref="mitreSourceInfo"/>
+    </bean>
+</beans>
