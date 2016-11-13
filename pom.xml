@@ -8,9 +8,37 @@
     <artifactId>cve-manager</artifactId>
     <version>0.1</version>
 
+    <packaging>pom</packaging>
+
     <description>
-        Менеджер анализа уязвимостей при сертификации программного обеспечения
+        Менеджер поиска и анализа уязвимостей при сертификации программного обеспечения
     </description>
+
+    <modules>
+        <module>cve-manager-api</module>
+        <module>cve-manager-parsers</module>
+        <module>cve-manager-example</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>ru.goncharov.cvem</groupId>
+                <artifactId>cve-manager-api</artifactId>
+                <version>0.1</version>
+            </dependency>
+            <dependency>
+                <groupId>ru.goncharov.cvem</groupId>
+                <artifactId>cve-manager-parsers</artifactId>
+                <version>0.1</version>
+            </dependency>
+            <dependency>
+                <groupId>ru.goncharov.cvem</groupId>
+                <artifactId>cve-manager-example</artifactId>
+                <version>0.1</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <profiles>
         <profile>
@@ -148,7 +176,6 @@
     </dependencies>
 
     <build>
-        <finalName>CveManager-${project.version}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -174,26 +201,6 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <version>${maven-dependency-plugin.version}</version>
-                <executions>
-                    <execution>
-                        <id>copy-dependencies</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>copy-dependencies</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${project.build.directory}/lib</outputDirectory>
-                            <overWriteReleases>false</overWriteReleases>
-                            <overWriteSnapshots>true</overWriteSnapshots>
-                            <overWriteIfNewer>true</overWriteIfNewer>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>${maven-jar-plugin.version}</version>
                 <configuration>
@@ -203,10 +210,8 @@
                         <compress>true</compress>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <classpathPrefix>lib/</classpathPrefix>
                             <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
                             <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
-                            <mainClass>ru.goncharov.cvem.Example</mainClass>
                         </manifest>
                         <manifestEntries>
                             <X-Compile-Source>${jdk.version}</X-Compile-Source>
