@@ -1,9 +1,9 @@
 # IntelliJ
-/.idea/
-/*.iml
+.idea/
+*.iml
 
 # Maven
 **/target/
 
 # Log4j
-/logs/
+**/logs/
